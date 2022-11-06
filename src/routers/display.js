@@ -38,10 +38,13 @@ function Display() {
     }, [id]);
 
     function formatIngredient({ ingredient, measure }) {
-        const elements = measure.trim().split(" ").filter(data => /([0-9,/])/g.test(data));
-        /** clean up fraction */
-        const amounts = elements.map(data => (new Function("count", `return ${data} * count`))(count));
-        return `${ingredient} ${new Fraction(amounts.reduce((pre, cur) => pre + cur, 0)).toFraction(true)} ${elements.slice(-1)}`;
+        const elements = measure.trim().split(" ");
+        const units = elements.filter(data => /([a-z])/g.test(data));
+        const amounts = elements
+            .filter(data => /([0-9,/])/g.test(data))
+            // eslint-disable-next-line no-new-func
+            .map(data => (new Function("count", `return ${data} * count`))(count));
+        return `${ingredient} ${new Fraction(amounts.reduce((pre, cur) => pre + cur, 0)).toFraction(true)} ${units.join(" ")}`;
     }
 
     if (!cocktail) {
@@ -52,6 +55,7 @@ function Display() {
             <section className="section cocktail-section">
               <Link to="/" className="section-back"> &lt;-- back home </Link>
               <h2 className="section-title">{name}</h2>
+              <input className="section-count" min={1} type="number" value={count} onChange={event => setCount(event.target.value)}/>
               <div className="drink">
                 <img src={image} alt={name}></img>
                 <div className="drink-info">

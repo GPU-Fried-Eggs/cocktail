@@ -2,6 +2,14 @@
     text-align: center;
 }
 
+.cocktail-section h2 {
+    margin-bottom: 5px;
+}
+
+.section-count {
+    margin: 20px;
+}
+
 .section-back {
     position: fixed;
     top: 15px;

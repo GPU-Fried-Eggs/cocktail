@@ -31,6 +31,7 @@ function AppProvider({ children }) {
         }
     }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => { void (async () => await fetchDrinks())(); }, [searchTerm]);
 
     return (
